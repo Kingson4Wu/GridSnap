@@ -66,7 +66,18 @@ export default function App() {
       <Header />
 
       {!imageSrc ? (
-        <main className="flex-1 p-4">
+        <main className="flex-1 p-4 flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
+            {t.steps.map((step, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full border border-[#e94560] bg-[#e94560]/15 text-[#e94560] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  {i + 1}
+                </div>
+                <span className="text-sm text-white/55">{step}</span>
+              </div>
+            ))}
+          </div>
+          <hr className="border-white/10" />
           <ImagePicker onImageSelected={handleImageSelected} />
         </main>
       ) : (
