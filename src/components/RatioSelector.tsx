@@ -1,5 +1,6 @@
 import { ASPECT_RATIOS } from '../constants'
 import type { AspectRatio } from '../types'
+import { t } from '../i18n'
 
 interface Props {
   selected: AspectRatio
@@ -9,7 +10,7 @@ interface Props {
 export function RatioSelector({ selected, onChange }: Props) {
   return (
     <div className="w-full">
-      <p className="text-xs text-white/40 mb-2 px-1">Ratio</p>
+      <p className="text-xs text-white/40 mb-2 px-1">{t.ratio}</p>
       <div className="flex gap-2">
         {ASPECT_RATIOS.map(ratio => (
           <button

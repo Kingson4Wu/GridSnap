@@ -10,6 +10,7 @@ import { exportCells } from './utils/canvasExport'
 import { saveToGallery } from './utils/saveToGallery'
 import { GRID_LAYOUTS, ASPECT_RATIOS } from './constants'
 import type { GridLayout, AspectRatio } from './types'
+import { t } from './i18n'
 
 export default function App() {
   const [imageSrc, setImageSrc] = useState<string | null>(null)
@@ -54,7 +55,7 @@ export default function App() {
       const blobs = await exportCells(imageSrc, cropPixels, layout, ratio)
       await saveToGallery(blobs)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Save failed, please try again')
+      setError(err instanceof Error ? err.message : t.saveFailed)
     } finally {
       setLoading(false)
     }
@@ -86,7 +87,7 @@ export default function App() {
               onClick={() => { setImageSrc(null); reset() }}
               className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-white/30 hover:text-white/60 px-3 py-1"
             >
-              Change photo
+              {t.changePhoto}
             </button>
           </div>
 
