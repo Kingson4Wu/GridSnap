@@ -1,5 +1,5 @@
 import Cropper from 'react-easy-crop'
-import { useRef, useCallback, useLayoutEffect, useState } from 'react'
+import { useRef, useCallback, useLayoutEffect, useEffect, useState } from 'react'
 import type { CSSProperties } from 'react'
 import type { GridLayout, AspectRatio, Point, CropPixels } from '../types'
 import { computeGridAspect } from '../utils/geometry'
@@ -27,46 +27,61 @@ export function CropArea({
 }: Props) {
   const aspect = computeGridAspect(layout.rows, layout.cols, ratio.width, ratio.height)
   const containerRef = useRef<HTMLDivElement>(null)
+  const rafRef = useRef<number | null>(null)
   const [overlayStyle, setOverlayStyle] = useState<CSSProperties>({ display: 'none' })
 
-  // Compute the actual crop box size/position within the container.
-  // react-easy-crop sizes the crop box to fill the limiting dimension
-  // (width or height) while preserving `aspect`. The overlay must match.
-  const updateOverlay = useCallback(() => {
-    const el = containerRef.current
-    if (!el) return
-    const { width, height } = el.getBoundingClientRect()
-    if (width === 0 || height === 0) return
-
-    let boxW: number, boxH: number
-    if (width / height > aspect) {
-      // Container is wider than crop box → height-limited
-      boxH = height
-      boxW = height * aspect
-    } else {
-      // Container is taller than crop box → width-limited
-      boxW = width
-      boxH = width / aspect
-    }
-
-    setOverlayStyle({
-      position: 'absolute',
-      width: `${boxW}px`,
-      height: `${boxH}px`,
-      left: `${(width - boxW) / 2}px`,
-      top: `${(height - boxH) / 2}px`,
-      pointerEvents: 'none',
+  // Read the crop area dimensions directly from the DOM element that
+  // react-easy-crop renders. This is more reliable than computing it ourselves
+  // because react-easy-crop may apply internal offsets we don't know about.
+  const syncOverlay = useCallback(() => {
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      const container = containerRef.current
+      if (!container) return
+      const cropEl = container.querySelector('[class*="CropArea"]') as HTMLElement | null
+      if (!cropEl) return
+      const cRect = container.getBoundingClientRect()
+      const eRect = cropEl.getBoundingClientRect()
+      if (eRect.width === 0 || eRect.height === 0) return
+      setOverlayStyle({
+        position: 'absolute',
+        left: `${eRect.left - cRect.left}px`,
+        top: `${eRect.top - cRect.top}px`,
+        width: `${eRect.width}px`,
+        height: `${eRect.height}px`,
+        pointerEvents: 'none',
+      })
     })
-  }, [aspect])
+  }, [])
 
+  // Watch for container resize and for react-easy-crop inserting/resizing
+  // the crop area element (happens after image loads or aspect changes).
   useLayoutEffect(() => {
-    updateOverlay()
-    const el = containerRef.current
-    if (!el) return
-    const ro = new ResizeObserver(updateOverlay)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [updateOverlay])
+    const container = containerRef.current
+    if (!container) return
+
+    const ro = new ResizeObserver(syncOverlay)
+    ro.observe(container)
+
+    // MutationObserver catches when react-easy-crop sets inline style on
+    // the crop area div (e.g. after image load changes cropSize).
+    const mo = new MutationObserver(syncOverlay)
+    mo.observe(container, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] })
+
+    return () => {
+      ro.disconnect()
+      mo.disconnect()
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+    }
+  }, [syncOverlay])
+
+  // Re-sync when aspect changes (grid layout or ratio switch).
+  useEffect(() => {
+    syncOverlay()
+  }, [aspect, syncOverlay])
+
+  const isOverlayReady = overlayStyle.display !== 'none' && overlayStyle.width !== undefined
 
   return (
     <div ref={containerRef} className="relative w-full" style={{ height: '60vw', maxHeight: '360px' }}>
@@ -83,18 +98,21 @@ export function CropArea({
           containerStyle: { borderRadius: '12px', overflow: 'hidden' },
         }}
       />
-      <div
-        style={{
-          ...overlayStyle,
-          display: 'grid',
-          gridTemplateColumns: `repeat(${layout.cols}, 1fr)`,
-          gridTemplateRows: `repeat(${layout.rows}, 1fr)`,
-        }}
-      >
-        {Array.from({ length: layout.rows * layout.cols }).map((_, i) => (
-          <div key={i} style={{ border: '1px solid rgba(255,255,255,0.4)' }} />
-        ))}
-      </div>
+      {isOverlayReady && (
+        <div
+          data-testid="grid-overlay"
+          style={{
+            ...overlayStyle,
+            display: 'grid',
+            gridTemplateColumns: `repeat(${layout.cols}, 1fr)`,
+            gridTemplateRows: `repeat(${layout.rows}, 1fr)`,
+          }}
+        >
+          {Array.from({ length: layout.rows * layout.cols }).map((_, i) => (
+            <div key={i} style={{ border: '1px solid rgba(255,255,255,0.4)' }} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
