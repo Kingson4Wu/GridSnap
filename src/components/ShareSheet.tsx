@@ -23,7 +23,12 @@ export function ShareSheet({ open, onClose }: Props) {
   }
 
   async function handleMore() {
-    await shareViaWebShare('GridSnap', t.shareText)
+    try {
+      await shareViaWebShare('GridSnap', t.shareText)
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') return
+      throw err
+    }
   }
 
   return (
@@ -59,7 +64,7 @@ export function ShareSheet({ open, onClose }: Props) {
 
         <div className="flex items-center justify-between bg-white/5 rounded-xl px-4 py-3 mb-3">
           <span className="text-xs text-white/35 font-mono truncate flex-1 mr-3">
-            kingson4wu.github.io/GridSnap/
+            {APP_URL.replace('https://', '')}
           </span>
           <button
             type="button"
