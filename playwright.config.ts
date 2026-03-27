@@ -1,9 +1,11 @@
 import { defineConfig } from '@playwright/test'
 
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173/GridSnap/'
+
 export default defineConfig({
   testDir: './e2e',
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL,
   },
   projects: [
     {
@@ -11,11 +13,12 @@ export default defineConfig({
       use: { browserName: 'chromium' },
     },
   ],
-  // Do not start a web server automatically — run `npm run dev` separately
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:5173/GridSnap/',
-    reuseExistingServer: true,
-    timeout: 30_000,
+    // In CI: serve the pre-built dist/ with vite preview.
+    // Locally: use the dev server (faster HMR).
+    command: process.env.CI ? 'npm run preview' : 'npm run dev',
+    url: baseURL,
+    reuseExistingServer: !process.env.CI,
+    timeout: 60_000,
   },
 })
