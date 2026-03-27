@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, type ReactNode } from 'react'
 import { Header } from './components/Header'
 import { ImagePicker } from './components/ImagePicker'
 import { CropArea } from './components/CropArea'
@@ -98,31 +98,14 @@ export default function App() {
               onZoomChange={onZoomChange}
               onCropComplete={onCropComplete}
             />
-            {/* Rotate CCW */}
-            <button
-              type="button"
-              aria-label="Rotate counterclockwise"
-              onClick={() => setRotation(r => ((r - 90) + 360) % 360)}
-              className="absolute top-2 left-2 w-8 h-8 flex items-center justify-center rounded-lg bg-black/50 border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                <path d="M3 3v5h5"/>
-              </svg>
-            </button>
-            {/* Rotate CW */}
-            <button
-              type="button"
-              aria-label="Rotate clockwise"
-              onClick={() => setRotation(r => (r + 90) % 360)}
-              className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-lg bg-black/50 border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
-                <path d="M21 3v5h-5"/>
-              </svg>
-            </button>
-            {/* Change photo */}
+            <RotateButton side="left" aria-label="Rotate counterclockwise" onClick={() => setRotation(r => (r + 270) % 360)}>
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </RotateButton>
+            <RotateButton side="right" aria-label="Rotate clockwise" onClick={() => setRotation(r => (r + 90) % 360)}>
+              <path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+              <path d="M21 3v5h-5"/>
+            </RotateButton>
             <button
               type="button"
               onClick={() => { setImageSrc(null); setRotation(0); reset() }}
@@ -147,5 +130,25 @@ export default function App() {
       )}
       <ShareSheet open={shareOpen} onClose={() => setShareOpen(false)} />
     </div>
+  )
+}
+
+function RotateButton({ side, onClick, children, ...rest }: {
+  side: 'left' | 'right'
+  onClick: () => void
+  children: ReactNode
+  'aria-label': string
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`absolute top-2 ${side === 'left' ? 'left-2' : 'right-2'} w-8 h-8 flex items-center justify-center rounded-lg bg-black/50 border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors`}
+      {...rest}
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        {children}
+      </svg>
+    </button>
   )
 }

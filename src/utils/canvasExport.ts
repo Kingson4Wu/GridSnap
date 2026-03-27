@@ -17,32 +17,17 @@ export async function exportCells(
   const regions = computeCellSourceRegions(cropPixels, layout.rows, layout.cols)
   const { width: outW, height: outH } = computeCellOutputSize(ratio.width, ratio.height)
 
-  const blobs: Blob[] = []
-
-  for (const region of regions) {
-    const canvas = document.createElement('canvas')
-    canvas.width = outW
-    canvas.height = outH
-    const ctx = canvas.getContext('2d')
-    if (!ctx) throw new Error('Canvas 2D context unavailable')
-
-    ctx.drawImage(
-      source,
-      region.x,
-      region.y,
-      region.width,
-      region.height,
-      0,
-      0,
-      outW,
-      outH,
-    )
-
-    const blob = await canvasToBlob(canvas)
-    blobs.push(blob)
-  }
-
-  return blobs
+  return Promise.all(
+    regions.map(region => {
+      const canvas = document.createElement('canvas')
+      canvas.width = outW
+      canvas.height = outH
+      const ctx = canvas.getContext('2d')
+      if (!ctx) throw new Error('Canvas 2D context unavailable')
+      ctx.drawImage(source, region.x, region.y, region.width, region.height, 0, 0, outW, outH)
+      return canvasToBlob(canvas)
+    }),
+  )
 }
 
 /** Draws image rotated by `rotation` degrees (90/180/270) onto a new canvas. */
