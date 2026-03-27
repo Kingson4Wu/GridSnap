@@ -22,3 +22,16 @@ dist-ssr
 *.sln
 *.sw?
 .superpowers/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Test coverage
+coverage/
+
+# TypeScript build cache
+*.tsbuildinfo

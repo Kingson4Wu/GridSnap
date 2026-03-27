@@ -14,7 +14,7 @@ export default defineConfig({
       manifest: {
         name: 'GridSnap',
         short_name: 'GridSnap',
-        description: '图片网格切割工具',
+        description: 'Split any photo into a grid for Instagram',
         theme_color: '#0f0f23',
         background_color: '#0f0f23',
         display: 'standalone',

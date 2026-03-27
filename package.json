@@ -1,7 +1,22 @@
 {
-  "name": "gridsnap-scaffold",
+  "name": "gridsnap",
+  "version": "1.0.0",
+  "description": "Split any photo into a grid for Instagram — mobile-first PWA",
+  "homepage": "https://kingson4wu.github.io/GridSnap/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kingson4Wu/GridSnap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kingson4Wu/GridSnap/issues"
+  },
+  "keywords": ["instagram", "grid", "photo", "pwa", "image-splitter"],
+  "author": "Kingson Wu",
+  "license": "MIT",
   "private": true,
-  "version": "0.0.0",
+  "engines": {
+    "node": ">=20"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
