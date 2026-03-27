@@ -11,6 +11,7 @@ import { saveToGallery } from './utils/saveToGallery'
 import { GRID_LAYOUTS, ASPECT_RATIOS } from './constants'
 import type { GridLayout, AspectRatio } from './types'
 import { t } from './i18n'
+import { ShareSheet } from './components/ShareSheet'
 
 export default function App() {
   const [imageSrc, setImageSrc] = useState<string | null>(null)
@@ -18,6 +19,7 @@ export default function App() {
   const [ratio, setRatio] = useState<AspectRatio>(ASPECT_RATIOS[0])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [shareOpen, setShareOpen] = useState(false)
 
   const { crop, zoom, cropPixels, onCropChange, onZoomChange, onCropComplete, reset } =
     useCropState()
@@ -63,7 +65,7 @@ export default function App() {
 
   return (
     <div className="h-dvh bg-[#0f0f23] text-white flex flex-col max-w-lg mx-auto overflow-hidden">
-      <Header />
+      <Header onShareClick={() => setShareOpen(true)} />
 
       {!imageSrc ? (
         <main className="flex-1 p-4 flex flex-col gap-4">
@@ -115,6 +117,7 @@ export default function App() {
           </div>
         </>
       )}
+      <ShareSheet open={shareOpen} onClose={() => setShareOpen(false)} />
     </div>
   )
 }
