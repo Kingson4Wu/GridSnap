@@ -12,6 +12,10 @@ export function buildShareUrl(
       return `https://wa.me/?text=${enc(text + ' ' + APP_URL)}`
     case 'telegram':
       return `https://t.me/share/url?url=${enc(APP_URL)}&text=${enc(text)}`
+    default: {
+      const _exhaustive: never = platform
+      throw new Error(`Unsupported platform: ${_exhaustive}`)
+    }
   }
 }
 
@@ -27,8 +31,11 @@ export async function copyToClipboard(text: string): Promise<void> {
   document.body.appendChild(el)
   el.focus()
   el.select()
-  document.execCommand('copy')
-  document.body.removeChild(el)
+  try {
+    document.execCommand('copy')
+  } finally {
+    document.body.removeChild(el)
+  }
 }
 
 export async function shareViaWebShare(title: string, text: string): Promise<void> {
