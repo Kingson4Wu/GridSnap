@@ -14,11 +14,11 @@
 
 **Files:**
 - Modify: `src/i18n.ts`
-- Test: `src/i18n.test.ts` (create)
+- Test: `src/i18n.test.tsxx` (create)
 
 - [ ] **Step 1: Write the failing test**
 
-Create `src/i18n.test.ts`:
+Create `src/i18n.test.tsx`:
 
 ```ts
 import { describe, it, expect } from 'vitest'
@@ -75,7 +75,7 @@ Expected: 2 tests PASS.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/i18n.ts src/i18n.test.ts
+git add src/i18n.ts src/i18n.test.tsx
 git commit -m "feat: add step strings to i18n"
 ```
 
@@ -88,7 +88,7 @@ git commit -m "feat: add step strings to i18n"
 
 - [ ] **Step 1: Write the failing test**
 
-Add to `src/i18n.test.ts`:
+Add to `src/i18n.test.tsx`:
 
 ```ts
 import { render, screen } from '@testing-library/react'
@@ -104,7 +104,7 @@ describe('Home empty state', () => {
 })
 ```
 
-Also add the import at the top of `src/i18n.test.ts`:
+Also add the import at the top of `src/i18n.test.tsx`:
 
 ```ts
 import { render, screen } from '@testing-library/react'
@@ -161,6 +161,6 @@ Expected: `✓ built in ...ms`
 - [ ] **Step 6: Commit**
 
 ```bash
-git add src/App.tsx src/i18n.test.ts
+git add src/App.tsx src/i18n.test.tsx
 git commit -m "feat: show 3-step onboarding guide on home empty state"
 ```
