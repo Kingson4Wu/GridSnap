@@ -9,7 +9,7 @@ interface Props {
 export function RatioSelector({ selected, onChange }: Props) {
   return (
     <div className="w-full">
-      <p className="text-xs text-white/40 mb-2 px-1">每格比例</p>
+      <p className="text-xs text-white/40 mb-2 px-1">Ratio</p>
       <div className="flex gap-2">
         {ASPECT_RATIOS.map(ratio => (
           <button

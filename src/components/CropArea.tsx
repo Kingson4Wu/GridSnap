@@ -84,7 +84,7 @@ export function CropArea({
   const isOverlayReady = overlayStyle.display !== 'none' && overlayStyle.width !== undefined
 
   return (
-    <div ref={containerRef} className="relative w-full" style={{ height: '60vw', maxHeight: '360px' }}>
+    <div ref={containerRef} className="relative w-full h-full">
       <Cropper
         image={imageSrc}
         crop={crop}

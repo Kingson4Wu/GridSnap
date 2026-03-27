@@ -26,7 +26,7 @@ export function ImagePicker({ onImageSelected }: Props) {
       className="flex flex-col items-center justify-center gap-2 w-full h-full min-h-48 border-2 border-dashed border-white/20 rounded-xl text-white/50 hover:border-white/40 hover:text-white/70 transition-colors"
     >
       <span className="text-4xl">📷</span>
-      <span className="text-sm">点击选取图片</span>
+      <span className="text-sm">Tap to select a photo</span>
       <input
         ref={inputRef}
         type="file"

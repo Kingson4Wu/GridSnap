@@ -54,56 +54,55 @@ export default function App() {
       const blobs = await exportCells(imageSrc, cropPixels, layout, ratio)
       await saveToGallery(blobs)
     } catch (err) {
-      setError(err instanceof Error ? err.message : '保存失败，请重试')
+      setError(err instanceof Error ? err.message : 'Save failed, please try again')
     } finally {
       setLoading(false)
     }
   }, [imageSrc, cropPixels, layout, ratio])
 
   return (
-    <div className="min-h-screen bg-[#0f0f23] text-white flex flex-col max-w-lg mx-auto">
+    <div className="h-dvh bg-[#0f0f23] text-white flex flex-col max-w-lg mx-auto overflow-hidden">
       <Header />
 
-      <main className="flex-1 flex flex-col gap-4 p-4">
-        <div className="w-full">
-          {imageSrc ? (
-            <div className="flex flex-col gap-2">
-              <CropArea
-                imageSrc={imageSrc}
-                layout={layout}
-                ratio={ratio}
-                crop={crop}
-                zoom={zoom}
-                onCropChange={onCropChange}
-                onZoomChange={onZoomChange}
-                onCropComplete={onCropComplete}
-              />
-              <button
-                type="button"
-                onClick={() => { setImageSrc(null); reset() }}
-                className="text-xs text-white/30 hover:text-white/60 text-center py-1"
-              >
-                重新选取图片
-              </button>
-            </div>
-          ) : (
-            <ImagePicker onImageSelected={handleImageSelected} />
-          )}
-        </div>
-
-        {imageSrc && (
-          <>
-            <GridSelector selected={layout} onChange={handleLayoutChange} />
-            <RatioSelector selected={ratio} onChange={handleRatioChange} />
-            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-            <SaveButton
-              disabled={!cropPixels}
-              loading={loading}
-              onClick={handleSave}
+      {!imageSrc ? (
+        <main className="flex-1 p-4">
+          <ImagePicker onImageSelected={handleImageSelected} />
+        </main>
+      ) : (
+        <>
+          <div className="flex-1 relative overflow-hidden">
+            <CropArea
+              imageSrc={imageSrc}
+              layout={layout}
+              ratio={ratio}
+              crop={crop}
+              zoom={zoom}
+              onCropChange={onCropChange}
+              onZoomChange={onZoomChange}
+              onCropComplete={onCropComplete}
             />
-          </>
-        )}
-      </main>
+            <button
+              type="button"
+              onClick={() => { setImageSrc(null); reset() }}
+              className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-white/30 hover:text-white/60 px-3 py-1"
+            >
+              Change photo
+            </button>
+          </div>
+
+          <div
+            className="flex-none border-t border-white/10 px-3 pt-3 bg-[#0f0f23]"
+            style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+          >
+            {error && <p className="text-red-400 text-xs text-center mb-2">{error}</p>}
+            <GridSelector selected={layout} onChange={handleLayoutChange} />
+            <div className="flex items-center justify-between mt-2">
+              <RatioSelector selected={ratio} onChange={handleRatioChange} />
+              <SaveButton disabled={!cropPixels} loading={loading} onClick={handleSave} />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

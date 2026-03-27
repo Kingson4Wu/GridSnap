@@ -8,27 +8,21 @@ interface Props {
 
 export function GridSelector({ selected, onChange }: Props) {
   return (
-    <div className="w-full">
-      <p className="text-xs text-white/40 mb-2 px-1">网格</p>
-      <div className="flex gap-2 overflow-x-auto pb-1">
-        {GRID_LAYOUTS.map(layout => (
-          <button
-            key={layout.id}
-            type="button"
-            onClick={() => onChange(layout)}
-            className={`flex-none flex flex-col items-center gap-1 p-2 rounded-lg border transition-colors ${
-              selected.id === layout.id
-                ? 'border-[#e94560] bg-[#e94560]/10'
-                : 'border-white/10 bg-white/5'
-            }`}
-          >
-            <GridIcon rows={layout.rows} cols={layout.cols} active={selected.id === layout.id} />
-            <span className={`text-xs ${selected.id === layout.id ? 'text-[#e94560]' : 'text-white/50'}`}>
-              {layout.label}
-            </span>
-          </button>
-        ))}
-      </div>
+    <div className="flex gap-2 overflow-x-auto pb-1">
+      {GRID_LAYOUTS.map(layout => (
+        <button
+          key={layout.id}
+          type="button"
+          onClick={() => onChange(layout)}
+          className={`flex-none p-2 rounded-lg border transition-colors ${
+            selected.id === layout.id
+              ? 'border-[#e94560] bg-[#e94560]/10'
+              : 'border-white/10 bg-white/5'
+          }`}
+        >
+          <GridIcon rows={layout.rows} cols={layout.cols} active={selected.id === layout.id} />
+        </button>
+      ))}
     </div>
   )
 }
