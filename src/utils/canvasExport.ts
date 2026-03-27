@@ -10,8 +10,10 @@ export async function exportCells(
   cropPixels: CropPixels,
   layout: GridLayout,
   ratio: AspectRatio,
+  rotation = 0,
 ): Promise<Blob[]> {
   const image = await loadImage(imageSrc)
+  const source = rotation === 0 ? image : rotateImageToCanvas(image, rotation)
   const regions = computeCellSourceRegions(cropPixels, layout.rows, layout.cols)
   const { width: outW, height: outH } = computeCellOutputSize(ratio.width, ratio.height)
 
@@ -25,7 +27,7 @@ export async function exportCells(
     if (!ctx) throw new Error('Canvas 2D context unavailable')
 
     ctx.drawImage(
-      image,
+      source,
       region.x,
       region.y,
       region.width,
@@ -41,6 +43,19 @@ export async function exportCells(
   }
 
   return blobs
+}
+
+/** Draws image rotated by `rotation` degrees (90/180/270) onto a new canvas. */
+function rotateImageToCanvas(img: HTMLImageElement, rotation: number): HTMLCanvasElement {
+  const swap = rotation === 90 || rotation === 270
+  const canvas = document.createElement('canvas')
+  canvas.width = swap ? img.height : img.width
+  canvas.height = swap ? img.width : img.height
+  const ctx = canvas.getContext('2d')!
+  ctx.translate(canvas.width / 2, canvas.height / 2)
+  ctx.rotate((rotation * Math.PI) / 180)
+  ctx.drawImage(img, -img.width / 2, -img.height / 2)
+  return canvas
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {

@@ -20,6 +20,7 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [shareOpen, setShareOpen] = useState(false)
+  const [rotation, setRotation] = useState(0)
 
   const { crop, zoom, cropPixels, onCropChange, onZoomChange, onCropComplete, reset } =
     useCropState()
@@ -28,6 +29,7 @@ export default function App() {
     (dataUrl: string) => {
       setImageSrc(dataUrl)
       setError(null)
+      setRotation(0)
       reset()
     },
     [reset],
@@ -54,14 +56,14 @@ export default function App() {
     setLoading(true)
     setError(null)
     try {
-      const blobs = await exportCells(imageSrc, cropPixels, layout, ratio)
+      const blobs = await exportCells(imageSrc, cropPixels, layout, ratio, rotation)
       await saveToGallery(blobs)
     } catch (err) {
       setError(err instanceof Error ? err.message : t.saveFailed)
     } finally {
       setLoading(false)
     }
-  }, [imageSrc, cropPixels, layout, ratio])
+  }, [imageSrc, cropPixels, layout, ratio, rotation])
 
   return (
     <div className="h-dvh bg-[#0f0f23] text-white flex flex-col max-w-lg mx-auto overflow-hidden">
@@ -91,14 +93,40 @@ export default function App() {
               ratio={ratio}
               crop={crop}
               zoom={zoom}
+              rotation={rotation}
               onCropChange={onCropChange}
               onZoomChange={onZoomChange}
               onCropComplete={onCropComplete}
             />
+            {/* Rotate CCW */}
             <button
               type="button"
-              onClick={() => { setImageSrc(null); reset() }}
-              className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-white/30 hover:text-white/60 px-3 py-1"
+              aria-label="Rotate counterclockwise"
+              onClick={() => setRotation(r => ((r - 90) + 360) % 360)}
+              className="absolute top-2 left-2 w-8 h-8 flex items-center justify-center rounded-lg bg-black/50 border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+              </svg>
+            </button>
+            {/* Rotate CW */}
+            <button
+              type="button"
+              aria-label="Rotate clockwise"
+              onClick={() => setRotation(r => (r + 90) % 360)}
+              className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-lg bg-black/50 border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                <path d="M21 3v5h-5"/>
+              </svg>
+            </button>
+            {/* Change photo */}
+            <button
+              type="button"
+              onClick={() => { setImageSrc(null); setRotation(0); reset() }}
+              className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-white/70 hover:text-white bg-black/50 border border-white/20 hover:border-white/40 rounded-full px-3 py-1.5 transition-colors whitespace-nowrap"
             >
               {t.changePhoto}
             </button>

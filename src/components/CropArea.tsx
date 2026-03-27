@@ -10,6 +10,7 @@ interface Props {
   ratio: AspectRatio
   crop: Point
   zoom: number
+  rotation: number
   onCropChange: (crop: Point) => void
   onZoomChange: (zoom: number) => void
   onCropComplete: (croppedArea: unknown, croppedAreaPixels: CropPixels) => void
@@ -21,6 +22,7 @@ export function CropArea({
   ratio,
   crop,
   zoom,
+  rotation,
   onCropChange,
   onZoomChange,
   onCropComplete,
@@ -89,6 +91,7 @@ export function CropArea({
         image={imageSrc}
         crop={crop}
         zoom={zoom}
+        rotation={rotation}
         aspect={aspect}
         onCropChange={onCropChange}
         onZoomChange={onZoomChange}
