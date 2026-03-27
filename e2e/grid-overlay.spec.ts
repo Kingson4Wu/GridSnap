@@ -40,7 +40,7 @@ test.describe('Grid overlay alignment', () => {
         const expectedGridAspect = (grid.cols / grid.rows) * (ratio.w / ratio.h)
         const expectedCellAspect = ratio.w / ratio.h
 
-        await page.getByText(grid.label).first().click()
+        await page.getByRole('button', { name: grid.label }).click()
         await page.getByText(ratio.label).first().click()
         await page.waitForTimeout(300)
 

@@ -13,6 +13,7 @@ export function GridSelector({ selected, onChange }: Props) {
         <button
           key={layout.id}
           type="button"
+          aria-label={layout.label}
           onClick={() => onChange(layout)}
           className={`flex-none p-2 rounded-lg border transition-colors ${
             selected.id === layout.id
