@@ -24,3 +24,12 @@ describe('Home empty state', () => {
     }
   })
 })
+
+describe('share strings', () => {
+  it('has all 5 share keys as non-empty strings', () => {
+    for (const key of ['shareTitle', 'shareText', 'copyLink', 'copied', 'moreOptions'] as const) {
+      expect(typeof t[key]).toBe('string')
+      expect((t[key] as string).length).toBeGreaterThan(0)
+    }
+  })
+})
