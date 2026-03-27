@@ -1,73 +1,62 @@
-# React + TypeScript + Vite
+# GridSnap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+把一张图片切割成网格，用于发布到 Instagram 等社交媒体。支持九宫格、四等分、横幅长图等多种切割方式，直接在手机浏览器使用，无需安装 App。
 
-Currently, two official plugins are available:
+**链接：** https://kingson4wu.github.io/GridSnap/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 使用方式
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### iOS（iPhone / iPad）
 
-## Expanding the ESLint configuration
+1. 用 **Safari** 打开 https://kingson4wu.github.io/GridSnap/
+2. 点击底部分享按钮 → **"添加到主屏幕"**，即可像 App 一样启动，支持离线使用
+3. 打开后点击"选取图片"，从相册选择图片
+4. 选择网格类型和比例
+5. 双指缩放或拖动调整构图
+6. 点击"保存全部"→ 系统会弹出分享面板，选择"存储到文件"或"存储图像"保存到相册
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+> 建议使用 Safari，其他浏览器（Chrome、Firefox）不支持添加到主屏幕。
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Android
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. 用 **Chrome** 打开 https://kingson4wu.github.io/GridSnap/
+2. 浏览器会提示"添加到主屏幕"，或点击右上角菜单 → **"安装应用"**
+3. 打开后点击"选取图片"，从相册选择图片
+4. 选择网格类型和比例，拖动调整构图
+5. 点击"保存全部"，图片会自动下载到手机的下载文件夹
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 桌面浏览器（Mac / Windows）
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+直接打开 https://kingson4wu.github.io/GridSnap/，操作方式与手机端相同，点击"保存全部"后图片会下载到本地。
+
+---
+
+## 支持的网格类型
+
+| 类型 | 说明 |
+|------|------|
+| 3×3  | 九宫格，适合发 9 张组图 |
+| 2×2  | 四等分，适合发 4 张组图 |
+| 2×3  | 6 格竖向排列 |
+| 1×2  | 左右两格，适合横幅长图 |
+| 1×3  | 横向三格 |
+| 1×4  | 横向四格 |
+
+## 支持的比例
+
+每格支持：**1:1（正方形）**、**3:4**、**4:5**、**9:16（竖屏）**
+
+---
+
+## 使用技巧
+
+- 所有操作均在本地完成，图片不会上传到任何服务器
+- 导出的每格图片宽度为 1080px，符合 Instagram 推荐尺寸
+- 切换比例时构图会自动重置，建议先选好比例再调整构图
+- 发布到 Instagram 时按顺序上传切割后的图片，关注者左右滑动即可看到完整大图
