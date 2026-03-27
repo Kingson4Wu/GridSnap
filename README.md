@@ -1,62 +1,62 @@
 # GridSnap
 
-把一张图片切割成网格，用于发布到 Instagram 等社交媒体。支持九宫格、四等分、横幅长图等多种切割方式，直接在手机浏览器使用，无需安装 App。
+Split a photo into a grid for posting to Instagram and other social media. Supports 3×3, 2×2, panoramic strips, and more. Works directly in your mobile browser — no app install needed.
 
-**链接：** https://kingson4wu.github.io/GridSnap/
+**Live:** https://kingson4wu.github.io/GridSnap/
 
 ---
 
-## 使用方式
+## How to Use
 
-### iOS（iPhone / iPad）
+### iOS (iPhone / iPad)
 
-1. 用 **Safari** 打开 https://kingson4wu.github.io/GridSnap/
-2. 点击底部分享按钮 → **"添加到主屏幕"**，即可像 App 一样启动，支持离线使用
-3. 打开后点击"选取图片"，从相册选择图片
-4. 选择网格类型和比例
-5. 双指缩放或拖动调整构图
-6. 点击"保存全部"→ 系统会弹出分享面板，选择"存储到文件"或"存储图像"保存到相册
+1. Open https://kingson4wu.github.io/GridSnap/ in **Safari**
+2. Tap the Share button at the bottom → **"Add to Home Screen"** to install it like an app (works offline)
+3. Tap "Select Image" to pick a photo from your library
+4. Choose a grid layout and aspect ratio
+5. Pinch to zoom or drag to reposition the image
+6. Tap "Save All" — a share sheet will appear; choose "Save to Files" or "Save Image" to save to your library
 
-> 建议使用 Safari，其他浏览器（Chrome、Firefox）不支持添加到主屏幕。
+> Use Safari. Other browsers (Chrome, Firefox) on iOS do not support Add to Home Screen.
 
 ---
 
 ### Android
 
-1. 用 **Chrome** 打开 https://kingson4wu.github.io/GridSnap/
-2. 浏览器会提示"添加到主屏幕"，或点击右上角菜单 → **"安装应用"**
-3. 打开后点击"选取图片"，从相册选择图片
-4. 选择网格类型和比例，拖动调整构图
-5. 点击"保存全部"，图片会自动下载到手机的下载文件夹
+1. Open https://kingson4wu.github.io/GridSnap/ in **Chrome**
+2. Chrome will prompt "Add to Home Screen", or tap the menu → **"Install app"**
+3. Tap "Select Image" to pick a photo from your library
+4. Choose a grid layout and aspect ratio, then drag to reposition
+5. Tap "Save All" — the images will download to your Downloads folder
 
 ---
 
-### 桌面浏览器（Mac / Windows）
+### Desktop (Mac / Windows)
 
-直接打开 https://kingson4wu.github.io/GridSnap/，操作方式与手机端相同，点击"保存全部"后图片会下载到本地。
-
----
-
-## 支持的网格类型
-
-| 类型 | 说明 |
-|------|------|
-| 3×3  | 九宫格，适合发 9 张组图 |
-| 2×2  | 四等分，适合发 4 张组图 |
-| 2×3  | 6 格竖向排列 |
-| 1×2  | 左右两格，适合横幅长图 |
-| 1×3  | 横向三格 |
-| 1×4  | 横向四格 |
-
-## 支持的比例
-
-每格支持：**1:1（正方形）**、**3:4**、**4:5**、**9:16（竖屏）**
+Open https://kingson4wu.github.io/GridSnap/ in any browser. The workflow is the same as mobile — "Save All" downloads the images to your computer.
 
 ---
 
-## 使用技巧
+## Grid Layouts
 
-- 所有操作均在本地完成，图片不会上传到任何服务器
-- 导出的每格图片宽度为 1080px，符合 Instagram 推荐尺寸
-- 切换比例时构图会自动重置，建议先选好比例再调整构图
-- 发布到 Instagram 时按顺序上传切割后的图片，关注者左右滑动即可看到完整大图
+| Layout | Description |
+|--------|-------------|
+| 3×3    | 9-tile grid, post as 9 images |
+| 2×2    | 4-tile grid, post as 4 images |
+| 2×3    | 6-tile grid |
+| 1×2    | Side-by-side split, great for wide panoramas |
+| 1×3    | Horizontal 3-tile strip |
+| 1×4    | Horizontal 4-tile strip |
+
+## Aspect Ratios
+
+Each cell supports: **1:1 (square)**, **3:4**, **4:5**, **9:16 (portrait)**
+
+---
+
+## Tips
+
+- Everything runs locally — your photos are never uploaded anywhere
+- Each exported tile is 1080px wide, matching Instagram's recommended resolution
+- Select your ratio before adjusting the crop — changing it resets the composition
+- On Instagram, upload the tiles in order; viewers swipe left to reveal the full image
