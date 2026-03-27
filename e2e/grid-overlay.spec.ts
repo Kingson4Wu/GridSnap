@@ -55,8 +55,7 @@ async function loadTestImage(page: Page) {
 
 test.describe('Grid overlay alignment', () => {
   test.beforeEach(async ({ page }) => {
-    // Use the Vite dev server (must be running: npm run dev)
-    await page.goto('http://localhost:5173/GridSnap/')
+    await page.goto('/')
     await page.setViewportSize({ width: 390, height: 844 }) // iPhone 14 viewport
     await loadTestImage(page)
     // Wait for the overlay to appear
