@@ -38,6 +38,14 @@ export default function App() {
     [reset],
   )
 
+  const handleRatioChange = useCallback(
+    (newRatio: AspectRatio) => {
+      setRatio(newRatio)
+      reset()
+    },
+    [reset],
+  )
+
   const handleSave = useCallback(async () => {
     if (!imageSrc || !cropPixels) return
     setLoading(true)
@@ -86,7 +94,7 @@ export default function App() {
         {imageSrc && (
           <>
             <GridSelector selected={layout} onChange={handleLayoutChange} />
-            <RatioSelector selected={ratio} onChange={setRatio} />
+            <RatioSelector selected={ratio} onChange={handleRatioChange} />
             {error && <p className="text-red-400 text-sm text-center">{error}</p>}
             <SaveButton
               disabled={!cropPixels}
