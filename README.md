@@ -7,6 +7,12 @@ Split a photo into a grid for posting to Instagram and other social media. Suppo
 
 **Live demo:** https://kingson4wu.github.io/GridSnap/
 
+<p align="center">
+  <img src="docs/screenshots/home.jpg" width="45%" alt="Home screen" />
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/crop.jpg" width="45%" alt="Crop screen" />
+</p>
+
 ---
 
 ## Features
