@@ -142,5 +142,23 @@ PhotoSplit 作为原生 App 体验上有优势，但作为一个网页工具，G
 
 ---
 
+---
+
+## 效果对比
+
+**PhotoSplit（收费）：**
+
+![PhotoSplit](screenshots/photosplit.jpg)
+
+**GridSnap（免费开源）：**
+
+<p>
+  <img src="screenshots/home.jpg" width="48%" alt="GridSnap 首页" />
+  &nbsp;
+  <img src="screenshots/crop.jpg" width="48%" alt="GridSnap 裁剪页" />
+</p>
+
+---
+
 *GridSnap 开源地址：https://github.com/Kingson4Wu/GridSnap*
 *在线体验：https://kingson4wu.github.io/GridSnap/*
