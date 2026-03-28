@@ -14,11 +14,12 @@ describe('ShareSheet', () => {
     expect(screen.getByText('Share GridSnap')).toBeInTheDocument()
   })
 
-  it('shows X, WhatsApp, Telegram labels', () => {
+  it('shows X, WhatsApp, Telegram, WeChat labels', () => {
     render(<ShareSheet open={true} onClose={() => {}} />)
     expect(screen.getByText('X')).toBeInTheDocument()
     expect(screen.getByText('WhatsApp')).toBeInTheDocument()
     expect(screen.getByText('Telegram')).toBeInTheDocument()
+    expect(screen.getByText('WeChat')).toBeInTheDocument()
   })
 
   it('shows Copy button', () => {
@@ -43,5 +44,16 @@ describe('ShareSheet', () => {
     render(<ShareSheet open={true} onClose={() => {}} />)
     await userEvent.click(screen.getByText('Copy'))
     expect(screen.getByText('Copied!')).toBeInTheDocument()
+  })
+
+  it('shows wechat copied toast after WeChat is clicked', async () => {
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: vi.fn().mockResolvedValue(undefined) },
+      configurable: true,
+      writable: true,
+    })
+    render(<ShareSheet open={true} onClose={() => {}} />)
+    await userEvent.click(screen.getByText('WeChat'))
+    expect(screen.getByText('Link copied — paste in WeChat to share')).toBeInTheDocument()
   })
 })

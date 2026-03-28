@@ -9,6 +9,7 @@ interface Props {
 
 export function ShareSheet({ open, onClose }: Props) {
   const [copied, setCopied] = useState(false)
+  const [wechatCopied, setWechatCopied] = useState(false)
 
   if (!open) return null
 
@@ -20,6 +21,12 @@ export function ShareSheet({ open, onClose }: Props) {
 
   function handlePlatform(platform: 'x' | 'whatsapp' | 'telegram') {
     window.open(buildShareUrl(platform, t.shareText), '_blank')
+  }
+
+  async function handleWechat() {
+    await copyToClipboard(APP_URL)
+    setWechatCopied(true)
+    setTimeout(() => setWechatCopied(false), 3000)
   }
 
   async function handleMore() {
@@ -46,7 +53,7 @@ export function ShareSheet({ open, onClose }: Props) {
           {t.shareTitle}
         </p>
 
-        <div className="flex justify-center gap-6 mb-4">
+        <div className="flex justify-center gap-5 mb-4">
           {(['x', 'whatsapp', 'telegram'] as const).map(platform => (
             <button
               key={platform}
@@ -60,7 +67,19 @@ export function ShareSheet({ open, onClose }: Props) {
               </span>
             </button>
           ))}
+          <button
+            type="button"
+            onClick={handleWechat}
+            className="flex flex-col items-center gap-1"
+          >
+            <WechatIcon />
+            <span className="text-xs text-white/40">WeChat</span>
+          </button>
         </div>
+
+        {wechatCopied && (
+          <p className="text-xs text-[#07C160] text-center mb-3">{t.wechatCopied}</p>
+        )}
 
         <div className="flex items-center justify-between bg-white/5 rounded-xl px-4 py-3 mb-3">
           <span className="text-xs text-white/35 font-mono truncate flex-1 mr-3">
@@ -107,6 +126,21 @@ function PlatformIcon({ platform }: { platform: 'x' | 'whatsapp' | 'telegram' })
   return (
     <div className="w-12 h-12 rounded-xl bg-[#2CA5E0] flex items-center justify-center text-xl">
       ✈️
+    </div>
+  )
+}
+
+function WechatIcon() {
+  return (
+    <div className="w-12 h-12 rounded-xl bg-[#07C160] flex items-center justify-center">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <ellipse cx="10" cy="11" rx="7.5" ry="5.5" fill="white" fillOpacity="0.95" />
+        <circle cx="7.5" cy="11" r="1.2" fill="#07C160" />
+        <circle cx="11.5" cy="11" r="1.2" fill="#07C160" />
+        <ellipse cx="19" cy="17" rx="6" ry="4.5" fill="white" fillOpacity="0.75" />
+        <circle cx="16.8" cy="17" r="1" fill="#07C160" />
+        <circle cx="20.2" cy="17" r="1" fill="#07C160" />
+      </svg>
     </div>
   )
 }
